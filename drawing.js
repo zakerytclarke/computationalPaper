@@ -60,6 +60,7 @@ function handleWritingStart(event) {
   canvasContext.shadowBlur = null;
 
   canvasContext.fill();
+  LAST_UPDATED_POSITION={x:mousePos.x, y:mousePos.y};
   
   state.mousedown = true;
 }
@@ -69,7 +70,7 @@ function handleWritingInProgress(event) {
   
   if (state.mousedown) {
     const mousePos = getMosuePositionOnCanvas(event);
-    LAST_UPDATED_POSITION={x:mousePos.x, y:mousePos.y};
+    
     canvasContext.lineTo(mousePos.x, mousePos.y);
     canvasContext.stroke();
   }

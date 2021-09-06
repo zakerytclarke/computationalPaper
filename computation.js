@@ -94,8 +94,35 @@ function getExprAsText(expr){
 }
 
 
+
+function clearGrid(i,j){
+    canvasContext.fillStyle = SETTINGS.backgroundColor;
+    canvasContext.fillRect(i*SETTINGS.gridSize+1,j*SETTINGS.gridSize+1,SETTINGS.gridSize-1,SETTINGS.gridSize-1);
+}
+
+function drawRectGrid(i,j){
+    canvasContext.fillStyle = SETTINGS.color;
+    canvasContext.fillRect(i*SETTINGS.gridSize+1,j*SETTINGS.gridSize+1,SETTINGS.gridSize-1,SETTINGS.gridSize-1);
+}
+
+function drawTextGrid(text,i,j){
+    var textSize=SETTINGS.gridSize/text.length;
+    
+    clearGrid(i,j);
+
+    canvasContext.fillStyle = SETTINGS.textColor;
+    canvasContext.font = textSize+"px serif";
+    canvasContext.fillText(text,i*SETTINGS.gridSize+SETTINGS.gridSize/4,j*SETTINGS.gridSize+SETTINGS.gridSize*3/4);
+
+
+
+}
+
+
+
+
+
 function drawGraph(expr,x,y){
-    console.log(getExprAsText(expr));
     var width=100;
     var height=100;
 

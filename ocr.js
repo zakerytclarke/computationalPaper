@@ -27,27 +27,24 @@ function extractTextByCanvas(){
 
 function extractTextByCell(x,y){
     var gridSize=SETTINGS.gridSize;
-    var i=Math.floor(x/canvas.width*gridSize);
-    var j=Math.floor(y/canvas.height*gridSize);
-    
-    console.log(x/canvas.width);
-    console.log(i,j)
-    
+    var i=Math.floor(x/gridSize);
+    var j=Math.floor(y/gridSize);
     var image_data = canvasContext.getImageData(gridSize*i,gridSize*j,gridSize,gridSize);
-    
-    canvasContext.strokeStyle = "#ff0000";
-    
-    canvasContext.strokeRect(gridSize*i,gridSize*j,1,1);
-
-
-    canvasContext.strokeRect(x,y,1,1);
-
-    canvasContext.strokeRect(gridSize*i,gridSize*j,gridSize,gridSize);
-    
-    GRID[i][j]=OCRAD(image_data);
-    //console.log(GRID);
+    var result=OCRAD(image_data);
+    console.log(result);
+    drawTextGrid(result,i,j+1);
+    GRID[i][j]=result;
     return GRID[i][j];
 }
+
+
+function drawGridSquare(i,j){
+    var gridSize=SETTINGS.gridSize;
+    canvasContext.strokeStyle = "#ff0000";
+    
+    canvasContext.strokeRect(gridSize*i,gridSize*j,gridSize,gridSize);
+}
+
 
 function extractTextByCells(){
     var arr=[];

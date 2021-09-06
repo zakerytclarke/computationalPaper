@@ -1,6 +1,7 @@
 var SETTINGS={
     gridSize:30,
     color:"#ccc",
+    backgroundColor:"#ffffff",
     graphColor:"#4882e0",
     textColor:"#555",
     mappings:{
