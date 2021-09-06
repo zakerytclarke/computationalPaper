@@ -2,6 +2,7 @@ var SETTINGS={
     gridSize:400,
     color:"#ccc",
     graphColor:"#4882e0",
+    textColor:"#555",
     mappings:{
         "±":"=",
         "_":"-",

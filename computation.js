@@ -79,17 +79,23 @@ function typeExpr(expr){
 }
 
 
-drawGraph(evaluateStatement(["=","y",["*",2,"x"]]),100,100);
 
 
 function getExprAsText(expr){
-    var t=typeExpr("number")
-    if()
+    var t=typeExpr(expr);
+
+    if(t=="number"){
+        return expr;
+    }
+    if(t=="variable"){
+        return expr;
+    }
+    return getExprAsText(expr[1])+expr[0]+getExprAsText(expr[2]);
 }
 
 
 function drawGraph(expr,x,y){
-    console.log(getExprAsText(expr))
+    console.log(getExprAsText(expr));
     var width=100;
     var height=100;
 
@@ -113,11 +119,12 @@ function drawGraph(expr,x,y){
         if(x+width/2+xCoor>x&&x+width/2+xCoor<x+width&&y+height/2+yCoor>y&&y+height/2+yCoor<y+height){
             canvasContext.fillRect(x+width/2+xCoor,y+height/2+yCoor,1,1);    
         }
-        
-        
-        
+    
     }
-
+    canvasContext.fillStyle = SETTINGS.textColor;
+    canvasContext.font = '10px serif';
+    canvasContext.fillText(getExprAsText(expr),x+10,y+10);
+    
 }
 
 function calculateGraph(expr){
