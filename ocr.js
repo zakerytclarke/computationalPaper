@@ -7,7 +7,7 @@ function recognizeText(){
     document.getElementById("parsed-text").innerHTML=parsedText;
 
     return extractTextByCanvas();
-    
+
 }
 
 
@@ -44,8 +44,9 @@ function extractTextByLines(){
 
 
 function finishedDrawingLine(){
-    console.log(recognizeText());
+    recognizeText();
+    //console.log(recognizeText());
 }
 
 
-document.getElementById("ocr-button").onclick=recognizeText;
+//document.getElementById("ocr-button").onclick=recognizeText;

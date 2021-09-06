@@ -132,7 +132,7 @@ function drawGrid(){
 function drawLines(){
 
   for(var i=0;i<canvas.height/SETTINGS.gridSize;i++){
-    canvasContext.fillStyle = "#cccccc";
+    canvasContext.fillStyle = SETTINGS.color;
     canvasContext.fillRect(0, i*SETTINGS.gridSize, canvas.width, 1);
   }
 }
