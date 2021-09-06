@@ -17,7 +17,7 @@ const state = {
 // ===================
 // == Configuration ==
 // ===================
-const lineWidth = 20;
+const lineWidth = 2;
 const halfLineWidth = lineWidth / 2;
 // const fillStyle = '#333';
 // const strokeStyle = '#333';
@@ -112,4 +112,27 @@ function clearCanvas() {
   canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   canvasContext.fillStyle = "rgb(255, 255, 255)";
   canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+  //drawLines();
+}
+
+
+function drawGrid(){
+  
+  for(var i=0;i<canvas.width/SETTINGS.gridSize;i++){
+    canvasContext.fillStyle = "#cccccc";
+    canvasContext.fillRect(i*SETTINGS.gridSize, 0, 1, canvas.height);
+  }
+  for(var i=0;i<canvas.height/SETTINGS.gridSize;i++){
+    canvasContext.fillStyle = "#cccccc";
+    canvasContext.fillRect(0, i*SETTINGS.gridSize, canvas.width, 1);
+  }
+}
+
+function drawLines(){
+
+  for(var i=0;i<canvas.height/SETTINGS.gridSize;i++){
+    canvasContext.fillStyle = "#cccccc";
+    canvasContext.fillRect(0, i*SETTINGS.gridSize, canvas.width, 1);
+  }
 }
