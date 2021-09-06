@@ -1,3 +1,4 @@
+var LAST_UPDATED_POSITION={x:1,y:1};
 
 // =============
 // == Globals ==
@@ -5,7 +6,7 @@
 const canvas = document.getElementById('drawing-area');
 const canvasContext = canvas.getContext('2d');
 
-canvasContext.canvas.width  = window.innerWidth;
+canvasContext.canvas.width  = window.innerWidth-100;
 //canvasContext.canvas.height = window.innerHeight;
 clearCanvas();
 
@@ -68,7 +69,7 @@ function handleWritingInProgress(event) {
   
   if (state.mousedown) {
     const mousePos = getMosuePositionOnCanvas(event);
-
+    LAST_UPDATED_POSITION={x:mousePos.x, y:mousePos.y};
     canvasContext.lineTo(mousePos.x, mousePos.y);
     canvasContext.stroke();
   }
@@ -112,7 +113,9 @@ function clearCanvas() {
   canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   canvasContext.fillStyle = "rgb(255, 255, 255)";
   canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
+  if(SETTINGS.drawGrid){
+    drawGrid();
+  }
   //drawLines();
 }
 

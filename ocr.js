@@ -1,3 +1,9 @@
+var GRID=[];
+for(var i=0;i<1000;i++){
+    GRID.push([]);
+}
+
+
 function recognizeText(){
     //var image_data = canvasContext.getImageData(0, 0,canvasContext.canvas.width,canvasContext.canvas.height);
     // var image_data = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
@@ -5,6 +11,8 @@ function recognizeText(){
     // console.log(OCRAD(image_data));
     var parsedText=parseText(extractTextByCanvas());
     document.getElementById("parsed-text").innerHTML=parsedText;
+    
+    return extractTextByCell(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y);
 
     return extractTextByCanvas();
 
@@ -14,6 +22,31 @@ function recognizeText(){
 function extractTextByCanvas(){
     var image_data = canvasContext.getImageData(0,0,canvas.width,canvas.height);
     return OCRAD(image_data);
+}
+
+
+function extractTextByCell(x,y){
+    var gridSize=SETTINGS.gridSize;
+    var i=Math.floor(x/canvas.width*gridSize);
+    var j=Math.floor(y/canvas.height*gridSize);
+    
+    console.log(x/canvas.width);
+    console.log(i,j)
+    
+    var image_data = canvasContext.getImageData(gridSize*i,gridSize*j,gridSize,gridSize);
+    
+    canvasContext.strokeStyle = "#ff0000";
+    
+    canvasContext.strokeRect(gridSize*i,gridSize*j,1,1);
+
+
+    canvasContext.strokeRect(x,y,1,1);
+
+    canvasContext.strokeRect(gridSize*i,gridSize*j,gridSize,gridSize);
+    
+    GRID[i][j]=OCRAD(image_data);
+    //console.log(GRID);
+    return GRID[i][j];
 }
 
 function extractTextByCells(){

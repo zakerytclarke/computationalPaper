@@ -1,5 +1,5 @@
 var SETTINGS={
-    gridSize:400,
+    gridSize:30,
     color:"#ccc",
     graphColor:"#4882e0",
     textColor:"#555",
@@ -14,5 +14,6 @@ var SETTINGS={
         minY:-50,
         maxY:50,
         step:0.5
-    }
+    },
+    drawGrid:true
 };
