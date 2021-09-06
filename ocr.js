@@ -7,6 +7,7 @@ function recognizeText(){
     document.getElementById("parsed-text").innerHTML=parsedText;
 
     return extractTextByCanvas();
+    
 }
 
 
