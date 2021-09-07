@@ -149,14 +149,14 @@ var recognizeTextDebounced = debounce(function() {
 
 var finishedDrawingEquation = debounce(function() {
 	computeAndWrite();
-},2000);
+},3000);
 
 
 function computeAndWrite(){
     var statements=generateStatements();
-    
+    console.log(statements);
     var evaled=evaluate(statements);
-
+    console.log(evaled);
     evaled.map(function(e){
         for(var i=0;i<e.location.length;i++){
             clearGrid(i+e.location.x,e.location.y+1);

@@ -9,6 +9,16 @@ function parseText(text){
     // if(text.length>0){
     //     return text.substring(0,1);
     // }
+
+    
+    for(var i = 0; i < SETTINGS.validVariables.length; i++){
+        if(text.indexOf(SETTINGS.validVariables[i])!=-1){
+            return SETTINGS.validVariables[i];
+        }
+    }
+    
+
+
     return text.toLowerCase();
 }
 
@@ -27,7 +37,6 @@ function parser(txt){
     if(Number(out)){//Number
         return Number(out);
     }else{//Variable
-        console.log(out);
         if(out.length>1){//Variables must be one character
             var o=null;
             

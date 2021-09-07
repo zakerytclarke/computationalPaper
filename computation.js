@@ -2,10 +2,12 @@ function evaluate(statements){
     var variables={};
 
     //return statements.map(s=>{return {location:s.location,statement:evaluateStatement(s.statement,variables)}});
-   return statements.map(function(s){
+   var res=statements.map(function(s){
     return {location:s.location,statement:evaluateStatement(s.statement,variables)};
-
    });
+   VARS=variables;
+   return res;
+
 }
 
 function evaluateStatement(expr,variables){
@@ -30,7 +32,7 @@ function evaluateStatement(expr,variables){
     var op=expr[0];
     var a1=evaluateStatement(expr[1],variables);
     var a2=evaluateStatement(expr[2],variables);
-
+    
     var t1=typeExpr(a1);
     var t2=typeExpr(a2);
 
@@ -43,10 +45,11 @@ function evaluateStatement(expr,variables){
                 return a1-a2;
             break;
             case "*":
+                console.log(a1,a2,variables,a1*a2)
                 return a1*a2;
             break;
             case "/":
-                return a1/a2;
+                return (a1/a2).toFixed(2);
             break;
         }
     }
@@ -61,7 +64,9 @@ function evaluateStatement(expr,variables){
     if(t1=="variable"&&t2=="number"){
         switch(op){
             case "=":
+                
                 variables[a1]=a2;
+                return ["=",a1,a2];
             break; 
         }
     }
@@ -124,17 +129,17 @@ function drawTextGrid(text,i,j){
 
 
 
-function drawGraphResize(expr){
+function drawGraphResize(expr,variables){
     drawGraph(expr.statement,expr.location.x*SETTINGS.gridSize,(expr.location.y+1)*SETTINGS.gridSize,expr.location.length*SETTINGS.gridSize,expr.location.length*SETTINGS.gridSize);
 }
 
-function drawGraph(expr,x,y,width,height){
+function drawGraph(expr,x,y,width,height,variables){
     console.log(expr);
     // var width=100;
     // var height=100;
 
     var graph=calculateGraph(expr,-width/2,width/2,0.1);
-   
+    console.log(graph);
     //Draw box
     canvasContext.fillStyle = SETTINGS.backgroundColor;
     canvasContext.fillRect(x,y,width,height);
@@ -159,9 +164,14 @@ function drawGraph(expr,x,y,width,height){
         }
     
     }
+
+
+    var text=getExprAsText(expr);
     canvasContext.fillStyle = SETTINGS.textColor;
-    canvasContext.font = '10px serif';
-    canvasContext.fillText(getExprAsText(expr),x+10,y+10);
+    var textSize=SETTINGS.gridSize/text.length*2;
+
+    canvasContext.font = textSize+'px serif';
+    canvasContext.fillText(text,x+10,y+textSize);
     
 }
 
@@ -171,7 +181,10 @@ function calculateGraph(expr,min,max,step){
     for(var i=min;i<max;i+=step){
         var x=i;
 
-        var vars={x:x};
+        var vars=VARS;
+        delete vars.x;
+        delete vars.y;
+        vars.x=x;
 
         var y=evaluateStatement(expr,vars);
         sampleX.push(x);

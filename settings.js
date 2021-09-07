@@ -1,8 +1,8 @@
 var GRID=[];
-
+var VARS={};
 var SETTINGS={
     version:"1.0.0",
-    gridSize:200,
+    gridSize:100,
     color:"#ccc",
     backgroundColor:"#ffffff",
     graphColor:"#4882e0",
@@ -13,6 +13,7 @@ var SETTINGS={
         "rt":"x",
         "r":"x",
         ")c":"x",
+        "-c":"x",
         "}c":"x",
         ")(":"x",
         "}{":"x",
@@ -23,6 +24,7 @@ var SETTINGS={
         ">c":"x",
         ">(":"x",
         "|":"1",
+        "l":"1",
         "|":"1",
         "q":"9",
         "u":"4",
@@ -33,11 +35,16 @@ var SETTINGS={
         "a":"8",
         "T":"7",
         "/\\":"y",
+        "\\/":"y",
         "}/":"y",
         "`/":"y",
         "-/":"y",
         "\n":"",
-        "\t":""
+        "\t":"",
+        "l":"c",
+        ".":"",
+        ";":"",
+        ",":"",
     },
     bounds:{
         minX:-50,
@@ -46,6 +53,7 @@ var SETTINGS={
         maxY:50,
         step:0.5
     },
+    validVariables:["1","2","3","4","5","6","7","8","9","x","y","c"],
     drawGrid:true,
     eraseErrors:false
 };

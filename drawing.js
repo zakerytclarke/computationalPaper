@@ -1,4 +1,4 @@
-var LAST_GRID_UPDATED={x:0,y:0};
+var LAST_GRID_UPDATED={x:-1,y:-1};
 var LAST_UPDATED_POSITION={x:1,y:1};
 var FINAL_UPDATED_POSITION={x:1,y:1};
 
