@@ -1,7 +1,7 @@
 var GRID=[];
 
 var SETTINGS={
-    gridSize:100,
+    gridSize:200,
     color:"#ccc",
     backgroundColor:"#ffffff",
     graphColor:"#4882e0",
