@@ -1,5 +1,7 @@
+var GRID=[];
+
 var SETTINGS={
-    gridSize:40,
+    gridSize:100,
     color:"#ccc",
     backgroundColor:"#ffffff",
     graphColor:"#4882e0",
@@ -8,8 +10,11 @@ var SETTINGS={
         "±":"=",
         "_":"-",
         "rt":"x",
+        "r":"x",
         ")c":"x",
-        ")(":"x"
+        ")(":"x",
+        "\n":"",
+        "\t":""
     },
     bounds:{
         minX:-50,

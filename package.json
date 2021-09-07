@@ -1,0 +1,22 @@
+{
+  "name": "computationalpaper",
+  "version": "1.0.0",
+  "description": "You can use the [editor on GitHub](https://github.com/zakerytclarke/computationalPaper/edit/main/README.md) to maintain and preview the content for your website in Markdown files.",
+  "main": "computation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zakerytclarke/computationalPaper.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zakerytclarke/computationalPaper/issues"
+  },
+  "homepage": "https://github.com/zakerytclarke/computationalPaper#readme",
+  "dependencies": {
+    "nearley": "^2.20.1"
+  }
+}

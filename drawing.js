@@ -123,7 +123,15 @@ function clearCanvas() {
     x:Math.floor(canvas.width/SETTINGS.gridSize),
     y:Math.floor(canvas.height/SETTINGS.gridSize),
   };
-  //drawLines();
+
+  for(var i=0;i<SETTINGS.gridDimensions.y;i++){
+    var temp=[];
+    for(var j=0;j<SETTINGS.gridDimensions.x;j++){
+      temp.push("");
+    }  
+    GRID.push(temp);
+  }
+  
 }
 
 

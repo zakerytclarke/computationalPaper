@@ -1,7 +1,7 @@
 function evaluate(statements){
     var variables={};
-    statements.map(statement=>evaluateStatement(variables));
-    return 
+    return statements.map(s=>{return {location:s.location,statement:evaluateStatement(s.statement,variables)}});
+    
 }
 
 function evaluateStatement(expr,variables){
@@ -172,4 +172,30 @@ function calculateGraph(expr){
         x:sampleX,
         y:sampleY
     }
+}
+
+
+function generateStatements(){
+    var statements=[];
+
+    for(var i=0;i<SETTINGS.gridDimensions.y;i++){
+        var statement=[];
+        var loc={};
+        for(var j=0;j<SETTINGS.gridDimensions.x;j++){
+          if(GRID[i][j]!=""){
+            if(statement.length==0){//First string
+                loc={x:j,y:i,length:0}
+            }
+            loc.length++;
+            statement.push(GRID[i][j]);
+          }else{
+              if(statement.length>0){
+                statements.push({statement:parser(statement.join("")),location:loc});
+                statement=[];
+              }
+          }
+        }  
+        
+      }
+    return statements;
 }

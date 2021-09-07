@@ -1,14 +1,10 @@
-var GRID=[];
-for(var i=0;i<1000;i++){
-    GRID.push([]);
-}
 
 
 function recognizeText(){
     //var image_data = canvasContext.getImageData(0, 0,canvasContext.canvas.width,canvasContext.canvas.height);
     // var image_data = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
     // document.getElementById("debug-image").src=canvas.toDataURL();
-    // console.log(OCRAD(image_data));
+    
     var parsedText=extractTextByCell(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y)
    
     return parsedText;
@@ -25,22 +21,20 @@ function extractTextByCell(x,y){
     var gridSize=SETTINGS.gridSize;
     var i=Math.floor(x/SETTINGS.gridSize);
     var j=Math.floor(y/SETTINGS.gridSize);
-    console.log(i,j,gridSize*i,gridSize*j,gridSize,gridSize)
+   
     var image_data = canvasContext.getImageData(gridSize*i,gridSize*j,gridSize,gridSize);
     
 
     var ocrText=OCRAD(image_data)
-    console.log(ocrText)
     var result=parseText(ocrText);
-    console.log(result)
-
+    
     if(result==""&&SETTINGS.eraseErrors){
         clearGrid(i,j);
     }
 
     drawTextGrid(result,i,j+1);
-    GRID[i][j]=result;
-    return GRID[i][j];
+    GRID[j][i]=result;
+    return result;
 }
 
 
@@ -81,10 +75,6 @@ function extractTextByLines(){
 
 function finishedDrawingLine(){
     recognizeGesture();
-    
-
-
-    //console.log(recognizeText());
     finishedDrawingEquation();
 }
 
@@ -110,11 +100,26 @@ function recognizeGesture(){
 
 var recognizeTextDebounced = debounce(function() {
 	recognizeText();
-},1500);
+},500);
 
 var finishedDrawingEquation = debounce(function() {
-	console.log("TIME TO COMPUTE")
-},3000);
+	computeAndWrite();
+},2000);
+
+
+function computeAndWrite(){
+    var statements=generateStatements();
+    console.log(statements);
+    var evaled=evaluate(statements);
+
+    evaled.map(function(e){
+        for(var i=0;i<e.location.length;i++){
+            clearGrid(i+e.location.x,e.location.y+1);
+        }
+        drawTextGrid(getExprAsText(e.statement),e.location.x,e.location.y+1);
+    });
+    console.log(evaled);
+}
 
 
 
