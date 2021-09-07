@@ -9,13 +9,9 @@ function recognizeText(){
     // var image_data = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
     // document.getElementById("debug-image").src=canvas.toDataURL();
     // console.log(OCRAD(image_data));
-    var parsedText=parseText(extractTextByCanvas());
-    document.getElementById("parsed-text").innerHTML=parsedText;
-    
-    return extractTextByCell(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y);
-
-    return extractTextByCanvas();
-
+    var parsedText=extractTextByCell(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y)
+   
+    return parsedText;
 }
 
 
@@ -27,11 +23,21 @@ function extractTextByCanvas(){
 
 function extractTextByCell(x,y){
     var gridSize=SETTINGS.gridSize;
-    var i=Math.floor(x/gridSize);
-    var j=Math.floor(y/gridSize);
+    var i=Math.floor(x/SETTINGS.gridSize);
+    var j=Math.floor(y/SETTINGS.gridSize);
+    console.log(i,j,gridSize*i,gridSize*j,gridSize,gridSize)
     var image_data = canvasContext.getImageData(gridSize*i,gridSize*j,gridSize,gridSize);
-    var result=OCRAD(image_data);
-    console.log(result);
+    
+
+    var ocrText=OCRAD(image_data)
+    console.log(ocrText)
+    var result=parseText(ocrText);
+    console.log(result)
+
+    if(result==""&&SETTINGS.eraseErrors){
+        clearGrid(i,j);
+    }
+
     drawTextGrid(result,i,j+1);
     GRID[i][j]=result;
     return GRID[i][j];
@@ -74,9 +80,58 @@ function extractTextByLines(){
 
 
 function finishedDrawingLine(){
-    recognizeText();
+    recognizeGesture();
+    
+
+
     //console.log(recognizeText());
+    finishedDrawingEquation();
 }
 
+function recognizeGesture(){
+    //Clear Swipe
+    if(LAST_UPDATED_POSITION.x<2*SETTINGS.gridSize&&
+       LAST_UPDATED_POSITION.y<2*SETTINGS.gridSize&&
+       FINAL_UPDATED_POSITION.x>10*SETTINGS.gridSize&&
+       FINAL_UPDATED_POSITION.y>10*SETTINGS.gridSize
+       ){
+        clearCanvas();
+    }else
+    if(Math.sqrt(Math.pow(LAST_UPDATED_POSITION.x-FINAL_UPDATED_POSITION.x,2)+
+    Math.pow(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y,2))>1.2*SETTINGS.gridSize){//Drawing
+        //Let it Draw
+    }else{//Single Character
+        recognizeTextDebounced();
+    }
+    
+    
+}
+
+
+var recognizeTextDebounced = debounce(function() {
+	recognizeText();
+},1500);
+
+var finishedDrawingEquation = debounce(function() {
+	console.log("TIME TO COMPUTE")
+},3000);
+
+
+
+//https://davidwalsh.name/javascript-debounce-function
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
 
 //document.getElementById("ocr-button").onclick=recognizeText;

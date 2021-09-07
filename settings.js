@@ -1,5 +1,5 @@
 var SETTINGS={
-    gridSize:30,
+    gridSize:40,
     color:"#ccc",
     backgroundColor:"#ffffff",
     graphColor:"#4882e0",
@@ -7,7 +7,9 @@ var SETTINGS={
     mappings:{
         "±":"=",
         "_":"-",
-        "S":"5"
+        "rt":"x",
+        ")c":"x",
+        ")(":"x"
     },
     bounds:{
         minX:-50,
@@ -16,5 +18,8 @@ var SETTINGS={
         maxY:50,
         step:0.5
     },
-    drawGrid:true
+    drawGrid:true,
+    eraseErrors:false
 };
+
+SETTINGS.mappings["Â±".substring(1)]="=";

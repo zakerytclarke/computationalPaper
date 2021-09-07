@@ -1,7 +1,10 @@
 function parseText(text){
     for(var key in SETTINGS.mappings){
-        text=text.replaceAll(key,SETTINGS.mappings[key]);
+        text=text.replace(key,SETTINGS.mappings[key]);
         //console.log(text)
+    }
+    if(text.includes("±")){
+        return "=";
     }
     return text;
 }

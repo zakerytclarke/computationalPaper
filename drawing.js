@@ -1,4 +1,6 @@
 var LAST_UPDATED_POSITION={x:1,y:1};
+var FINAL_UPDATED_POSITION={x:1,y:1};
+
 
 // =============
 // == Globals ==
@@ -7,10 +9,10 @@ const canvas = document.getElementById('drawing-area');
 const canvasContext = canvas.getContext('2d');
 
 canvasContext.canvas.width  = window.innerWidth-100;
+canvasContext.canvas.height  = window.innerHeight-100;
 //canvasContext.canvas.height = window.innerHeight;
 clearCanvas();
 
-const clearButton = document.getElementById('clear-button');
 const state = {
   mousedown: false
 };
@@ -40,7 +42,7 @@ canvas.addEventListener('touchstart', handleWritingStart);
 canvas.addEventListener('touchmove', handleWritingInProgress);
 canvas.addEventListener('touchend', handleDrawingEnd);
 
-clearButton.addEventListener('click', handleClearButtonClick);
+//clearButton.addEventListener('click', handleClearButtonClick);
 
 // ====================
 // == Event Handlers ==
@@ -70,7 +72,7 @@ function handleWritingInProgress(event) {
   
   if (state.mousedown) {
     const mousePos = getMosuePositionOnCanvas(event);
-    
+    FINAL_UPDATED_POSITION={x:mousePos.x, y:mousePos.y};
     canvasContext.lineTo(mousePos.x, mousePos.y);
     canvasContext.stroke();
   }
@@ -117,6 +119,10 @@ function clearCanvas() {
   if(SETTINGS.drawGrid){
     drawGrid();
   }
+  SETTINGS.gridDimensions={
+    x:Math.floor(canvas.width/SETTINGS.gridSize),
+    y:Math.floor(canvas.height/SETTINGS.gridSize),
+  };
   //drawLines();
 }
 
