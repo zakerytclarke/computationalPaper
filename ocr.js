@@ -6,7 +6,7 @@ function recognizeText(){
     // document.getElementById("debug-image").src=canvas.toDataURL();
     
     var parsedText=extractTextByCell(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y)
-   
+    
     return parsedText;
 }
 
@@ -17,17 +17,23 @@ function extractTextByCanvas(){
 }
 
 
-function extractTextByCell(x,y){
-    var gridSize=SETTINGS.gridSize;
+function coordinatesToGrid(x,y){
     var i=Math.floor(x/SETTINGS.gridSize);
     var j=Math.floor(y/SETTINGS.gridSize);
-   
+    return {x:i,y:j};
+}
+
+function extractTextByCell(x,y){
+    var gridSize=SETTINGS.gridSize;
+    var coor=coordinatesToGrid(x,y);
+    var i=coor.x;
+    var j=coor.y;
+    LAST_GRID_UPDATED={x:i,y:j}
     var image_data = canvasContext.getImageData(gridSize*i,gridSize*j,gridSize,gridSize);
     
 
     var ocrText=OCRAD(image_data);
-    console.log(ocrText);
-
+ 
     var result=parseText(ocrText);
     
     if(result==""&&SETTINGS.eraseErrors){
@@ -93,10 +99,26 @@ function recognizeGesture(){
     Math.pow(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y,2))>1.2*SETTINGS.gridSize){//Drawing
         //Let it Draw
     }else{//Single Character
-        recognizeTextDebounced();
+        if(Math.abs(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y)<SETTINGS.gridSize/10){
+            var coor=coordinatesToGrid(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y);
+            if(LAST_GRID_UPDATED.x==coor.x&&LAST_GRID_UPDATED.y==coor.y){//Two horizontal lines
+                overWriteCell("=",coor.x,coor.y);
+            }else{//Single horizontal line
+                overWriteCell("-",coor.x,coor.y);
+            }
+            LAST_GRID_UPDATED={x:coor.x,y:coor.y};
+        }else{
+            recognizeTextDebounced();
+        }
     }
     
     
+}
+
+function overWriteCell(txt,i,j){
+    GRID[j][i]=txt;
+    drawTextGrid(txt,i,j+1);
+    LAST_GRID_UPDATED={x:0,y:0};
 }
 
 
@@ -115,6 +137,7 @@ function computeAndWrite(){
     var evaled=evaluate(statements);
 
     evaled.map(function(e){
+        console.log()
         for(var i=0;i<e.location.length;i++){
             clearGrid(i+e.location.x,e.location.y+1);
         }

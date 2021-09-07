@@ -15,7 +15,7 @@ function parseText(text){
 
 
 function parser(txt){
-    var orderOfOps=["*","/","+","-"];
+    var orderOfOps=["=","*","/","+","-"];
     var out=txt;
     orderOfOps.map(function(op){
         out=splitAtCharIfNotSplit(out,op);

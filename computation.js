@@ -1,10 +1,15 @@
 function evaluate(statements){
     var variables={};
-    return statements.map(s=>{return {location:s.location,statement:evaluateStatement(s.statement,variables)}});
-    
+
+    //return statements.map(s=>{return {location:s.location,statement:evaluateStatement(s.statement,variables)}});
+   return statements.map(function(s){
+    return {location:s.location,statement:evaluateStatement(s.statement,variables)};
+
+   });
 }
 
 function evaluateStatement(expr,variables){
+    console.log(expr,variables);
     if(!variables){
         variables={};
     }
@@ -56,7 +61,9 @@ function evaluateStatement(expr,variables){
     if(t1=="variable"&&t2=="number"){
         switch(op){
             case "=":
+                console.log("ASSIGNED");
                 variables[a1]=a2;
+                console.log(variables);
             break; 
         }
     }
