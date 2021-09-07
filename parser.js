@@ -31,7 +31,7 @@ function parser(txt){
         if(out.length>1){//Variables must be one character
             var o=null;
             
-            var oStr=out.split("").reverse();
+            var oStr=out.split("");
             oStr.map(function(oS){
                 if(o==null){
                     o=oS

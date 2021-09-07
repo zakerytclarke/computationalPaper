@@ -6,7 +6,10 @@ function recognizeText(){
     // document.getElementById("debug-image").src=canvas.toDataURL();
     
     var parsedText=extractTextByCell(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y)
-    
+    // if(parsedText=="vs"){
+    //     alert("Computational Paper\nVERSION: "+SETTINGS.version);
+    //     return "";
+    // }
     return parsedText;
 }
 
@@ -87,7 +90,7 @@ function finishedDrawingLine(){
 }
 
 function recognizeGesture(){
-    //Erase Swipe
+    //Long Full Erase Swipe
     if(LAST_UPDATED_POSITION.x<2*SETTINGS.gridSize&&
        LAST_UPDATED_POSITION.y<2*SETTINGS.gridSize&&
        FINAL_UPDATED_POSITION.x>(SETTINGS.gridDimensions.x-1)*SETTINGS.gridSize&&
@@ -96,9 +99,18 @@ function recognizeGesture(){
         clearCanvas();
     }else
     if(Math.sqrt(Math.pow(LAST_UPDATED_POSITION.x-FINAL_UPDATED_POSITION.x,2)+
-    Math.pow(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y,2))>1.2*SETTINGS.gridSize){//Drawing
+    Math.pow(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y,2))>1.2*Math.sqrt(2*Math.pow(SETTINGS.gridSize,2))){//Drawing
         //Let it Draw
     }else{//Single Character
+        if(Math.abs(LAST_UPDATED_POSITION.x-FINAL_UPDATED_POSITION.x)>=0.8*SETTINGS.gridSize&&
+           Math.abs(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y)>=0.8*SETTINGS.gridSize){//Erase Grid
+            //Calcualte average position to find grid
+            var avgX=(LAST_UPDATED_POSITION.x+FINAL_UPDATED_POSITION.x)/2;
+            var avgY=(LAST_UPDATED_POSITION.y+FINAL_UPDATED_POSITION.y)/2;
+            var coor=coordinatesToGrid(avgX,avgY)
+            
+            clearGrid(coor.x,coor.y);
+        }else
         if(Math.abs(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y)<SETTINGS.gridSize/10){
             var coor=coordinatesToGrid(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y);
             if(Math.abs(LAST_UPDATED_POSITION.x-FINAL_UPDATED_POSITION.x)>=SETTINGS.gridSize){//Erase Grid
@@ -146,7 +158,6 @@ function computeAndWrite(){
     var evaled=evaluate(statements);
 
     evaled.map(function(e){
-        console.log()
         for(var i=0;i<e.location.length;i++){
             clearGrid(i+e.location.x,e.location.y+1);
         }

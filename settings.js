@@ -1,6 +1,7 @@
 var GRID=[];
 
 var SETTINGS={
+    version:"1.0.0",
     gridSize:200,
     color:"#ccc",
     backgroundColor:"#ffffff",
@@ -34,6 +35,7 @@ var SETTINGS={
         "/\\":"y",
         "}/":"y",
         "`/":"y",
+        "-/":"y",
         "\n":"",
         "\t":""
     },
