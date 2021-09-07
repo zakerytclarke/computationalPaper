@@ -101,12 +101,21 @@ function recognizeGesture(){
     }else{//Single Character
         if(Math.abs(LAST_UPDATED_POSITION.y-FINAL_UPDATED_POSITION.y)<SETTINGS.gridSize/10){
             var coor=coordinatesToGrid(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y);
-            if(LAST_GRID_UPDATED.x==coor.x&&LAST_GRID_UPDATED.y==coor.y){//Two horizontal lines
-                overWriteCell("=",coor.x,coor.y);
-            }else{//Single horizontal line
-                overWriteCell("-",coor.x,coor.y);
-            }
-            LAST_GRID_UPDATED={x:coor.x,y:coor.y};
+            if(Math.abs(LAST_UPDATED_POSITION.x-FINAL_UPDATED_POSITION.x)>=SETTINGS.gridSize){//Erase Grid
+                //Calcualte average position to find grid
+                var maxP=Math.max(LAST_UPDATED_POSITION.x,FINAL_UPDATED_POSITION.x);
+                var maxP=Math.max(LAST_UPDATED_POSITION.x,FINAL_UPDATED_POSITION.x);
+                
+                var coor=coordinatesToGrid(LAST_UPDATED_POSITION.x,LAST_UPDATED_POSITION.y);
+                clearGrid(coor.x,coor.y);
+            }else{//Special Symbols
+                if(LAST_GRID_UPDATED.x==coor.x&&LAST_GRID_UPDATED.y==coor.y){//Two horizontal lines
+                    overWriteCell("=",coor.x,coor.y);
+                }else{//Single horizontal line
+                    overWriteCell("-",coor.x,coor.y);
+                }
+                LAST_GRID_UPDATED={x:coor.x,y:coor.y};
+            } 
         }else{
             recognizeTextDebounced();
         }
@@ -124,7 +133,7 @@ function overWriteCell(txt,i,j){
 
 var recognizeTextDebounced = debounce(function() {
 	recognizeText();
-},500);
+},0);
 
 var finishedDrawingEquation = debounce(function() {
 	computeAndWrite();
@@ -141,7 +150,14 @@ function computeAndWrite(){
         for(var i=0;i<e.location.length;i++){
             clearGrid(i+e.location.x,e.location.y+1);
         }
-        drawTextGrid(getExprAsText(e.statement),e.location.x,e.location.y+1);
+
+        var statementOutput=getExprAsText(e.statement);
+        if(statementOutput.indexOf("y=")==0){//GRAPHING TIME !!!
+            drawGraphResize(e);
+        }else{
+            drawTextGrid(statementOutput,e.location.x,e.location.y+1);
+        }
+
     });
     
 }

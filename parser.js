@@ -9,7 +9,7 @@ function parseText(text){
     // if(text.length>0){
     //     return text.substring(0,1);
     // }
-    return text;
+    return text.toLowerCase();
 }
 
 
@@ -27,7 +27,22 @@ function parser(txt){
     if(Number(out)){//Number
         return Number(out);
     }else{//Variable
-        return out;
+        console.log(out);
+        if(out.length>1){//Variables must be one character
+            var o=null;
+            
+            var oStr=out.split("").reverse();
+            oStr.map(function(oS){
+                if(o==null){
+                    o=oS
+                }else{
+                    o=["*",o,oS]
+                }
+            });
+            return o;
+        }else{
+            return out;
+        }
     }
 
     

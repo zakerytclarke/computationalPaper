@@ -1,7 +1,7 @@
 var GRID=[];
 
 var SETTINGS={
-    gridSize:200,
+    gridSize:100,
     color:"#ccc",
     backgroundColor:"#ffffff",
     graphColor:"#4882e0",
@@ -18,6 +18,9 @@ var SETTINGS={
         "){":"x",
         "}(":"x",
         "][":"x",
+        "><":"x",
+        ">c":"x",
+        ">(":"x",
         "|":"1",
         "|":"1",
         "q":"9",
@@ -28,6 +31,9 @@ var SETTINGS={
         "D":"0",
         "a":"8",
         "T":"7",
+        "/\\":"y",
+        "}/":"y",
+        "`/":"y",
         "\n":"",
         "\t":""
     },

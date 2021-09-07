@@ -9,7 +9,7 @@ function evaluate(statements){
 }
 
 function evaluateStatement(expr,variables){
-    console.log(expr,variables);
+    //console.log(expr,variables);
     if(!variables){
         variables={};
     }
@@ -61,9 +61,7 @@ function evaluateStatement(expr,variables){
     if(t1=="variable"&&t2=="number"){
         switch(op){
             case "=":
-                console.log("ASSIGNED");
                 variables[a1]=a2;
-                console.log(variables);
             break; 
         }
     }
@@ -90,9 +88,8 @@ function typeExpr(expr){
 
 function getExprAsText(expr){
     var t=typeExpr(expr);
-
     if(t=="number"){
-        return expr;
+        return expr+"";
     }
     if(t=="variable"){
         return expr;
@@ -127,15 +124,22 @@ function drawTextGrid(text,i,j){
 
 
 
+function drawGraphResize(expr){
+    drawGraph(expr.statement,expr.location.x*SETTINGS.gridSize,(expr.location.y+1)*SETTINGS.gridSize,expr.location.length*SETTINGS.gridSize,expr.location.length*SETTINGS.gridSize);
+}
 
+function drawGraph(expr,x,y,width,height){
+    console.log(expr);
+    // var width=100;
+    // var height=100;
 
-function drawGraph(expr,x,y){
-    var width=100;
-    var height=100;
-
-    var graph=calculateGraph(expr);
-
+    var graph=calculateGraph(expr,-width/2,width/2,0.1);
+   
     //Draw box
+    canvasContext.fillStyle = SETTINGS.backgroundColor;
+    canvasContext.fillRect(x,y,width,height);
+    
+
     canvasContext.fillStyle = SETTINGS.color;
     canvasContext.strokeStyle = SETTINGS.color;
     canvasContext.strokeRect(x,y,width,height);
@@ -161,10 +165,10 @@ function drawGraph(expr,x,y){
     
 }
 
-function calculateGraph(expr){
+function calculateGraph(expr,min,max,step){
     var sampleX=[];
     var sampleY=[];
-    for(var i=SETTINGS.bounds.minX;i<SETTINGS.bounds.maxX;i+=SETTINGS.bounds.step){
+    for(var i=min;i<max;i+=step){
         var x=i;
 
         var vars={x:x};
