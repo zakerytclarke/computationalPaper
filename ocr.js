@@ -87,11 +87,11 @@ function finishedDrawingLine(){
 }
 
 function recognizeGesture(){
-    //Clear Swipe
+    //Erase Swipe
     if(LAST_UPDATED_POSITION.x<2*SETTINGS.gridSize&&
        LAST_UPDATED_POSITION.y<2*SETTINGS.gridSize&&
-       FINAL_UPDATED_POSITION.x>10*SETTINGS.gridSize&&
-       FINAL_UPDATED_POSITION.y>10*SETTINGS.gridSize
+       FINAL_UPDATED_POSITION.x>(SETTINGS.gridDimensions.x-1)*SETTINGS.gridSize&&
+       FINAL_UPDATED_POSITION.y>(SETTINGS.gridDimensions.y-1)*SETTINGS.gridSize
        ){
         clearCanvas();
     }else
