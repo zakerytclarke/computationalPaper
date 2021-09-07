@@ -25,7 +25,9 @@ function extractTextByCell(x,y){
     var image_data = canvasContext.getImageData(gridSize*i,gridSize*j,gridSize,gridSize);
     
 
-    var ocrText=OCRAD(image_data)
+    var ocrText=OCRAD(image_data);
+    console.log(ocrText);
+
     var result=parseText(ocrText);
     
     if(result==""&&SETTINGS.eraseErrors){
@@ -109,7 +111,7 @@ var finishedDrawingEquation = debounce(function() {
 
 function computeAndWrite(){
     var statements=generateStatements();
-    console.log(statements);
+    
     var evaled=evaluate(statements);
 
     evaled.map(function(e){
@@ -118,7 +120,7 @@ function computeAndWrite(){
         }
         drawTextGrid(getExprAsText(e.statement),e.location.x,e.location.y+1);
     });
-    console.log(evaled);
+    
 }
 
 
