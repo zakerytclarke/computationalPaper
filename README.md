@@ -1,6 +1,7 @@
 ## Computational Paper
 
-<video width="320" height="240" controls>
-  <source src="https://zclarke.dev/computationalPaper/computationalPaper.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+
+
+
+https://user-images.githubusercontent.com/30702789/137594796-70a40a8b-17a6-4de2-ad22-2ede5e93c784.mp4
+
